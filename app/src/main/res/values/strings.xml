@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HACG</string>
+    <string name="preview_text">预览</string>
+    <string name="comment">评论</string>
+</resources>
