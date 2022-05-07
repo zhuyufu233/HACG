@@ -48,16 +48,20 @@ object WebParser {
 
     }
 
-    fun parserFooterTag(element: Element): ArrayList<TagPathData> {
+    fun parserFooterTag(element: Element): ArrayList<TagPathData>? {
         val e: Element = element.getElementsByTag("footer")[0]
-        val whatTag = e.getElementsByClass("tag-links")[0]
-        val elements = whatTag.getElementsByTag("a")
-        val arrayList = ArrayList<TagPathData>()
-        for (e2 in elements) {
-            val tagPathData = TagPathData(e2.attr("href"), e2.text())
-            arrayList.add(tagPathData)
+        return if (e.getElementsByClass("tag-links").size != 0) {
+            val whatTag = e.getElementsByClass("tag-links")[0]
+            val elements = whatTag.getElementsByTag("a")
+            val arrayList = ArrayList<TagPathData>()
+            for (e2 in elements) {
+                val tagPathData = TagPathData(e2.attr("href"), e2.text())
+                arrayList.add(tagPathData)
+            }
+            arrayList
+        } else {
+            null
         }
-        return arrayList
 
     }
 

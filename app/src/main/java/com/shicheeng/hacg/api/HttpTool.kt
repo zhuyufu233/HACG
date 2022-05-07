@@ -1,5 +1,10 @@
 package com.shicheeng.hacg.api
 
+import android.content.Context
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -40,6 +45,13 @@ object HttpTool {
             else -> {
                 "错误"
             }
+        }
+    }
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun imageGet(context: Context, url: String): Bitmap {
+        return withContext(Dispatchers.IO){
+            Glide.with(context).asBitmap().load(url).submit().get()
         }
     }
 

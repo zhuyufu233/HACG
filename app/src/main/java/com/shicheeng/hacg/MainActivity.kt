@@ -1,7 +1,11 @@
 package com.shicheeng.hacg
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.shicheeng.hacg.databinding.ActivityMainBinding
 import com.shicheeng.hacg.fm.ListFragment
 import kotlin.concurrent.thread
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +24,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
         val list = listOf<Fragment>(
             ListFragment.newInstance(MyApp.mainUrl),
             ListFragment.newInstance(MyApp.ageUrl),
@@ -37,11 +44,24 @@ class MainActivity : AppCompatActivity() {
             tabLayout.text = MyApp.textList[i]
         }.attach()
 
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v: View, windowInsetsCompat: WindowInsetsCompat ->
+
+            val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                rightMargin = insets.right
+            }
+            binding.mainAppLayoutBar.updatePadding(top = insets.top)
+
+            WindowInsetsCompat.CONSUMED
+        }
+
+
     }
 
     inner class MyAdapter(
         fragmentManager: FragmentManager,
-        private val list: List<Fragment>
+        private val list: List<Fragment>,
     ) :
         FragmentStateAdapter(fragmentManager, this.lifecycle) {
         override fun getItemCount(): Int {

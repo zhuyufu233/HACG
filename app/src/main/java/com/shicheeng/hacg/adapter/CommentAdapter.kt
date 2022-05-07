@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.shicheeng.hacg.R
 import com.shicheeng.hacg.data.CommentData
 
@@ -23,7 +25,7 @@ class CommentAdapter(private val mutableList: MutableList<CommentData>) :
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): CommentViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_comment_dialog_item, parent, false)
@@ -36,6 +38,7 @@ class CommentAdapter(private val mutableList: MutableList<CommentData>) :
         holder.likeComment.text = mutableList[position].likeIt
         holder.textComment.text = mutableList[position].comment
         Glide.with(holder.itemView.context).load(mutableList[position].imageUrl)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(holder.imageComment)
     }
 

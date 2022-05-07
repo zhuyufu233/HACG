@@ -9,7 +9,7 @@ import com.shicheeng.hacg.R
 import com.shicheeng.hacg.adapter.TagsChipAdapter.ChipViewHolder
 import com.shicheeng.hacg.data.TagPathData
 
-class TagsChipAdapter(private val list: MutableList<TagPathData>) :
+class TagsChipAdapter(private val list: MutableList<TagPathData>?) :
     RecyclerView.Adapter<ChipViewHolder>() {
 
 
@@ -24,8 +24,15 @@ class TagsChipAdapter(private val list: MutableList<TagPathData>) :
     }
 
     override fun onBindViewHolder(holder: ChipViewHolder, position: Int) {
-        holder.chipTag.text = list[position].nameTag
+        if (list?.get(position)?.nameTag?.isNotEmpty() == true) {
+            holder.chipTag.text = list[position].nameTag
+        } else {
+            holder.chipTag.visibility = View.GONE
+        }
+        holder.itemView.setOnClickListener {
+
+        }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = list?.size ?: 0
 }

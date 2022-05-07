@@ -6,7 +6,7 @@ data class MainListData(
     val secondary: String,
     val supportingText: String,
     val nextUrl: String,
-    val arrayList: ArrayList<TagPathData>,
+    val arrayList: ArrayList<TagPathData>?,
 )
 
 data class CommentData(

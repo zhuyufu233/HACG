@@ -7,31 +7,29 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_app_layout_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/main_tool_bar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
             android:elevation="0dp"
             app:title="@string/app_name" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tab_layout"
-            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"
+            style="@style/Widget.Material3.TabLayout.OnSurface"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?colorPrimary" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/main_view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_view_pager2"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 

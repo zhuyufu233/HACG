@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,6 +52,15 @@ class ListFragment : Fragment() {
         val list = ArrayList<MainListData>()
         val layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         val adapter = MainRecyclerViewAdapter(list)
+
+        ViewCompat.setOnApplyWindowInsetsListener(this.requireView()){ v: View, windowInsetsCompat: WindowInsetsCompat ->
+
+            val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.listRecyclerView.updatePadding(bottom = insets.bottom)
+
+            WindowInsetsCompat.CONSUMED
+        }
+
         viewModel.elementsLive.observe(viewLifecycleOwner) {
             list.addAll(it)
             adapter.notifyDataSetChanged()

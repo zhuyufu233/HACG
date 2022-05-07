@@ -9,9 +9,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -33,65 +35,71 @@ class PreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPreviewBinding.inflate(layoutInflater)
         val view = binding.root
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(view)
         val url: String = intent.getStringExtra("NEXT_URL")!!
         viewModel.onLoadHtmlData(url)
         viewModel.htmlData.observe(this) {
             val textView = binding.previewWebView
             textView.movementMethod = LinkMovementMethod.getInstance()
-            HtmlText.from(it).setImageLoader(object : HtmlImageLoader {
+            HtmlText.from(it)
+                .setImageLoader(object : HtmlImageLoader {
 
-                override fun loadImage(p0: String?, p1: HtmlImageLoader.Callback?) {
+                    override fun loadImage(url: String?, p1: HtmlImageLoader.Callback?) {
 
-                    Glide.with(this@PreviewActivity).asBitmap().load(p0)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                p1?.onLoadComplete(resource)
-                            }
+                        Glide.with(this@PreviewActivity).asBitmap().load(url)
+                            .into(object : CustomTarget<Bitmap>() {
+                                override fun onResourceReady(
+                                    resource: Bitmap,
+                                    transition: Transition<in Bitmap>?,
+                                ) {
+                                    p1?.onLoadComplete(resource)
+                                }
 
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                p1?.onLoadFailed()
-                            }
+                                override fun onLoadCleared(placeholder: Drawable?) {
+                                    p1?.onLoadFailed()
+                                }
 
-                        })
-                }
+                            })
+                    }
 
-                override fun getDefaultDrawable(): Drawable {
-                    return ContextCompat.getDrawable(
-                        this@PreviewActivity,
-                        R.drawable.ic_loading_image
-                    )!!
-                }
+                    override fun getDefaultDrawable(): Drawable {
+                        return ContextCompat.getDrawable(this@PreviewActivity,
+                            R.drawable.ic_loading_image)!!
+                    }
 
-                override fun getErrorDrawable(): Drawable {
-                    return ContextCompat.getDrawable(
-                        this@PreviewActivity,
-                        R.drawable.ic_loading_error
-                    )!!
-                }
+                    override fun getErrorDrawable(): Drawable {
+                        return ContextCompat.getDrawable(this@PreviewActivity,
+                            R.drawable.ic_loading_error)!!
+                    }
 
-                override fun getMaxWidth(): Int {
-                    return textView.width
-                }
+                    override fun getMaxWidth(): Int {
+                        return textView.width
+                    }
 
-                override fun fitWidth(): Boolean {
-                    return true
-                }
+                    override fun fitWidth(): Boolean {
+                        return true
+                    }
 
-            }).setOnTagClickListener(object : OnTagClickListener {
-                override fun onImageClick(p0: Context?, p1: MutableList<String>?, p2: Int) {
+                }).setOnTagClickListener(object : OnTagClickListener {
 
-                }
+                    override fun onImageClick(
+                        context: Context?,
+                        list: MutableList<String>?,
+                        positon: Int,
+                    ) {
+                        val intent = Intent()
+                        intent.setClass(this@PreviewActivity, ImageActivity::class.java)
+                        intent.putExtra("IMAGE_URL", list!![positon])
+                        startActivity(intent)
+                    }
 
-                override fun onLinkClick(p0: Context?, p1: String?) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(p1))
-                    startActivity(intent)
-                }
+                    override fun onLinkClick(context: Context?, url: String?) {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
+                    }
 
-            }).into(textView)
+                }).into(textView)
         }
         viewModel.showBar.observe(this) {
             if (!it) {
@@ -102,11 +110,28 @@ class PreviewActivity : AppCompatActivity() {
             finish()
         }
 
+
         binding.fabComment.setOnClickListener {
             val dialog = CommentDialogFragment.newInstance(url)
             dialog.show(supportFragmentManager, CommentDialogFragment.TAG)
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v: View, windowInsetsCompat: WindowInsetsCompat ->
+
+            val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                rightMargin = insets.right
+            }
+            binding.previewWebView.updatePadding(bottom = insets.bottom)
+            binding.fabComment.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = insets.bottom
+            }
+            binding.previewAppbarLayout.updatePadding(top = insets.top)
+
+            WindowInsetsCompat.CONSUMED
+        }
 
     }
 
@@ -116,6 +141,7 @@ class PreviewActivity : AppCompatActivity() {
             Glide.get(this).clearDiskCache()
         }
         Glide.get(this).clearMemory()
+
     }
 
 }
