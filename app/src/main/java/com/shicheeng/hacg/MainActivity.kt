@@ -1,7 +1,8 @@
 package com.shicheeng.hacg
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.shicheeng.hacg.databinding.ActivityMainBinding
 import com.shicheeng.hacg.fm.ListFragment
 import kotlin.concurrent.thread
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             ListFragment.newInstance(MyApp.comicUrl),
             ListFragment.newInstance(MyApp.gameUrl)
         )
+
+        setSupportActionBar(binding.mainToolBar)
         val tab = binding.mainTabLayout
         val viewPager2 = binding.mainViewPager2
         viewPager2.adapter = MyAdapter(supportFragmentManager, list)
@@ -57,6 +59,24 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.search_on_main -> {
+                val intent = intent
+                intent.setClass(this@MainActivity, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return true
     }
 
     inner class MyAdapter(

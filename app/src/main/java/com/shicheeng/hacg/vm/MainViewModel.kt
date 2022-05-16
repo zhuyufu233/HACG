@@ -28,7 +28,7 @@ class MainViewModel : ViewModel() {
     fun loadElementsData(url: String) {
         viewModelScope.launch {
             val elements: Elements = WebParser.getMainContext(url)!!
-            if (elements.isNullOrEmpty()) {
+            if (elements.isEmpty()) {
                 _message.postValue("超时")
                 return@launch
             }
@@ -66,6 +66,8 @@ class MainViewModel : ViewModel() {
     fun setBottomBarShow(barShow: Boolean) {
         _showBottomBar.postValue(barShow)
     }
+
+
 
 
 }

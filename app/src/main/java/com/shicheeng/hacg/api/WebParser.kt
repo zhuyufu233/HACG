@@ -1,5 +1,6 @@
 package com.shicheeng.hacg.api
 
+import com.shicheeng.hacg.MyApp
 import com.shicheeng.hacg.data.TagPathData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,9 +19,7 @@ object WebParser {
             } catch (e: SocketTimeoutException) {
                 null
             }
-
         }
-
     }
 
     suspend fun getCommentsText(url: String): Elements {
@@ -33,13 +32,27 @@ object WebParser {
                 .getElementsByClass("wpd-comment wpd_comment_level-1")
 
             element2
+        }
+    }
 
+    suspend fun getSearchData(page: Int, text: String): Elements? {
+        val url = MyApp.searchUrl.format(page, text)
+        //返回null
+        return withContext(Dispatchers.IO) {
+
+            try {
+                val elements = getMainContext(url)
+                elements
+            } catch (e: Exception) {
+
+                null
+            }
         }
     }
 
     fun parserSecondary(element: Element): String {
         val e: Element = element.getElementsByClass("entry-meta")[0]
-        val byWho = e.getElementsByTag("span")[0].text()
+        val byWho: String = e.getElementsByTag("span")[0].text() ?: "未知"
         val time = e.getElementsByTag("a")[0].attr("title")
         val date = e.getElementsByTag("a")[0].getElementsByTag("time")[0].text()
         val authorName =
@@ -81,6 +94,13 @@ object WebParser {
             }
         }
         return string
+    }
+
+    fun parserSearchView(element: Element): String {
+        val e: Elements = element.getElementsByClass("entry-summary")[0]
+            .getElementsByTag("p")
+        return e.text()
+
     }
 
     fun parserNextUrl(element: Element): String {
@@ -143,5 +163,6 @@ object WebParser {
             .getElementsByClass("wpd-vote")[0]
             .getElementsByClass("wpd-vote-result")[0].text()
     }
+
 
 }

@@ -50,9 +50,11 @@ object HttpTool {
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun imageGet(context: Context, url: String): Bitmap {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             Glide.with(context).asBitmap().load(url).submit().get()
         }
     }
+
+
 
 }

@@ -31,6 +31,8 @@
         <item name="android:navigationBarColor">#56ffffff</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="iconColor">@android:color/black</item>
+
 
     </style>
 </resources>

@@ -18,3 +18,10 @@ data class CommentData(
 )
 
 data class TagPathData(val url: String, val nameTag: String)
+
+data class SearchResultData(
+    val title: String,
+    val secondary: String,
+    val bodyText: String,
+    val path: String,
+)

@@ -2,4 +2,6 @@
     <string name="app_name">HACG</string>
     <string name="preview_text">预览</string>
     <string name="comment">评论</string>
+    <string name="search">搜索</string>
+    <string name="no_more">没有更多</string>
 </resources>
