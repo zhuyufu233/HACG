@@ -110,9 +110,21 @@ class SearchActivity : AppCompatActivity() {
         }
 
         vModel.errorCode.observe(this) {
-            if (it == 0) {
-                Snackbar.make(viewRoot, R.string.no_more, Snackbar.LENGTH_LONG).show()
-                binding.searchBottomIndicator.visibility = View.GONE
+            //获取返回码
+            when (it) {
+
+                404 -> {
+                    Snackbar.make(viewRoot,
+                        getString(R.string.no_more, it.toString()),
+                        Snackbar.LENGTH_LONG)
+                        .show()
+                    binding.searchBottomIndicator.visibility = View.GONE
+                }
+
+                1 -> {
+                    Snackbar.make(viewRoot, "未知错误", Snackbar.LENGTH_LONG)
+                        .show()
+                }
             }
         }
 

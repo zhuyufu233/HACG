@@ -9,5 +9,11 @@
         android:title="@string/search"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/about_on_main"
+        android:icon="@drawable/ic_about_action"
+        android:title="@string/about_text"
+        app:showAsAction="ifRoom" />
+
 
 </menu>

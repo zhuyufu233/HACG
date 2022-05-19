@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -53,7 +52,7 @@ class ListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         val adapter = MainRecyclerViewAdapter(list)
 
-        ViewCompat.setOnApplyWindowInsetsListener(this.requireView()){ v: View, windowInsetsCompat: WindowInsetsCompat ->
+        ViewCompat.setOnApplyWindowInsetsListener(this.requireView()) { _: View, windowInsetsCompat: WindowInsetsCompat ->
 
             val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
             binding.listRecyclerView.updatePadding(bottom = insets.bottom)
@@ -99,9 +98,13 @@ class ListFragment : Fragment() {
         })
 
         viewModel.showBar.observe(viewLifecycleOwner) {
-            if (!it) {
-                binding.listProgressIndicator.visibility = View.GONE
+
+            binding.listProgressIndicator.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
             }
+
         }
 
         viewModel.showBottomBar.observe(viewLifecycleOwner) {
@@ -111,8 +114,19 @@ class ListFragment : Fragment() {
                 binding.listBottomIndication.visibility = View.VISIBLE
             }
         }
+
         viewModel.message.observe(viewLifecycleOwner) {
-            Toast.makeText(this.context, it, Toast.LENGTH_LONG).show()
+
+            binding.errorTextOnShow.text = it
+            binding.errorLayoutList.visibility = View.VISIBLE
+            binding.errorTextOnShow.visibility = View.VISIBLE
+
+            binding.errorBtnOnShow.setOnClickListener {
+
+                viewModel.loadElementsData(url)
+                viewModel.setIndicationShow(true)
+                binding.errorLayoutList.visibility = View.GONE
+            }
         }
 
     }

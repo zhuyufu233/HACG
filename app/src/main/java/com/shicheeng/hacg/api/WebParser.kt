@@ -6,19 +6,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import java.net.SocketTimeoutException
 
 object WebParser {
 
-    suspend fun getMainContext(url: String): Elements? {
+    suspend fun getMainContext(url: String): Elements {
         return withContext(Dispatchers.IO) {
-            try {
-                val element: Element = HttpTool.parserUrl(url)!!
-                val elements: Elements = element.getElementsByTag("article")
-                elements
-            } catch (e: SocketTimeoutException) {
-                null
-            }
+            val element: Element = HttpTool.parserUrl(url)!!
+            val elements: Elements = element.getElementsByTag("article")
+            elements
         }
     }
 
@@ -35,18 +30,12 @@ object WebParser {
         }
     }
 
-    suspend fun getSearchData(page: Int, text: String): Elements? {
+    suspend fun getSearchData(page: Int, text: String): Elements {
         val url = MyApp.searchUrl.format(page, text)
-        //返回null
+
         return withContext(Dispatchers.IO) {
-
-            try {
-                val elements = getMainContext(url)
-                elements
-            } catch (e: Exception) {
-
-                null
-            }
+            val elements = getMainContext(url)
+            elements
         }
     }
 

@@ -7,8 +7,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/list_progress_indicator"
@@ -25,5 +25,31 @@
         android:indeterminate="true"
         android:visibility="gone"
         app:indicatorColor="?colorSecondary" />
+
+    <LinearLayout
+        android:id="@+id/error_layout_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center|top"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/error_text_on_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="?textAppearanceHeadline5" />
+
+        <Button
+            android:id="@+id/error_btn_on_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/retry" />
+
+    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

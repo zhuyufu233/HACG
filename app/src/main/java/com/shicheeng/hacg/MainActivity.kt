@@ -2,7 +2,6 @@ package com.shicheeng.hacg
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shicheeng.hacg.R.id.about_on_main
+import com.shicheeng.hacg.R.id.search_on_main
 import com.shicheeng.hacg.databinding.ActivityMainBinding
 import com.shicheeng.hacg.fm.ListFragment
 import kotlin.concurrent.thread
@@ -46,6 +47,23 @@ class MainActivity : AppCompatActivity() {
             tabLayout.text = MyApp.textList[i]
         }.attach()
 
+        binding.mainToolBar.setOnMenuItemClickListener {
+
+            when (it.itemId) {
+                search_on_main -> {
+                    val intent = intent
+                    intent.setClass(this@MainActivity, SearchActivity::class.java)
+                    startActivity(intent)
+                }
+                about_on_main -> {
+                    val intent = intent
+                    intent.setClass(this@MainActivity, AboutActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            true
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(view) { v: View, windowInsetsCompat: WindowInsetsCompat ->
 
             val insets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -68,16 +86,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search_on_main -> {
-                val intent = intent
-                intent.setClass(this@MainActivity, SearchActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        return true
-    }
 
     inner class MyAdapter(
         fragmentManager: FragmentManager,
