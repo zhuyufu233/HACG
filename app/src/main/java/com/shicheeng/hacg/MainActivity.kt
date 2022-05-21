@@ -1,5 +1,6 @@
 package com.shicheeng.hacg
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -51,17 +52,17 @@ class MainActivity : AppCompatActivity() {
 
             when (it.itemId) {
                 search_on_main -> {
-                    val intent = intent
+                    val intent = Intent()
                     intent.setClass(this@MainActivity, SearchActivity::class.java)
                     startActivity(intent)
                 }
                 about_on_main -> {
-                    val intent = intent
+                    val intent = Intent()
                     intent.setClass(this@MainActivity, AboutActivity::class.java)
                     startActivity(intent)
                 }
             }
-            true
+            false
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v: View, windowInsetsCompat: WindowInsetsCompat ->
@@ -75,7 +76,6 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
-
 
     }
 

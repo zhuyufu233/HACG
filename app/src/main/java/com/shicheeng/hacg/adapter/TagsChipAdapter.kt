@@ -30,7 +30,6 @@ class TagsChipAdapter(private val list: MutableList<TagPathData>?) :
             holder.chipTag.visibility = View.GONE
         }
         holder.itemView.setOnClickListener {
-
         }
     }
 
