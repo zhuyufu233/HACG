@@ -7,52 +7,42 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/preview_appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:liftOnScroll="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/preview_tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin"
             app:navigationIcon="@drawable/ic_back_arrow"
-            app:navigationIconTint="?colorOnSurface"
-            app:title="@string/preview_text" />
+            app:navigationIconTint="?colorOnSurface" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <TextView
-            android:id="@+id/preview_web_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:fontFamily="sans-serif"
-            android:textIsSelectable="true"
-            android:textSize="16sp" />
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/preview_context_include"
+                layout="@layout/preview_text_fragment" />
+
+            <include
+                android:id="@+id/preview_comment_include"
+                layout="@layout/preview_comment_fragment" />
+
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/preview_progress_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:contentDescription="@string/app_name"
-        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
-        app:srcCompat="@drawable/ic_look_message" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

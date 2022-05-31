@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.shicheeng.hacg.PreviewActivity
 import com.shicheeng.hacg.R
 import com.shicheeng.hacg.adapter.MainRecyclerViewAdapter.NewHolder
 import com.shicheeng.hacg.data.MainListData
+import me.wcy.htmltext.HtmlText
 
 class MainRecyclerViewAdapter(private val mutableList: MutableList<MainListData>) :
     RecyclerView.Adapter<NewHolder>() {
@@ -21,7 +23,7 @@ class MainRecyclerViewAdapter(private val mutableList: MutableList<MainListData>
         val titleTextView: TextView = itemView.findViewById(R.id.list_item_title_text)
         val secondaryTextView: TextView = itemView.findViewById(R.id.list_item_secondary_text)
         val supportingTextView: TextView = itemView.findViewById(R.id.list_item_supporting_text)
-        val tagRecyclerView: RecyclerView = itemView.findViewById(R.id.list_item_tage_chips)
+        val tagRecyclerView: ChipGroup = itemView.findViewById(R.id.list_item_tage_chips)
     }
 
     override fun onCreateViewHolder(
@@ -35,14 +37,10 @@ class MainRecyclerViewAdapter(private val mutableList: MutableList<MainListData>
 
     override fun onBindViewHolder(holder: NewHolder, position: Int) {
 
-        val adapter = TagsChipAdapter(mutableList[position].arrayList)
-        val layoutManager =
-            LinearLayoutManager(holder.itemView.context, RecyclerView.HORIZONTAL, false)
-
         Glide.with(holder.itemView).load(mutableList[position].imageUrl).into(holder.headImage)
         holder.titleTextView.text = mutableList[position].title
         holder.secondaryTextView.text = mutableList[position].secondary
-        holder.supportingTextView.text = mutableList[position].supportingText
+        HtmlText.from(mutableList[position].supportingText).into(holder.supportingTextView)
 
         holder.itemView.setOnClickListener {
             val intent = Intent()
@@ -52,8 +50,11 @@ class MainRecyclerViewAdapter(private val mutableList: MutableList<MainListData>
         }
 
         holder.tagRecyclerView.apply {
-            setAdapter(adapter)
-            setLayoutManager(layoutManager)
+            mutableList[position].arrayList?.forEach {
+                val chip = Chip(holder.itemView.context, null, R.attr.chipTagsStyle)
+                chip.text = it.nameTag
+                addView(chip)
+            }
         }
 
     }

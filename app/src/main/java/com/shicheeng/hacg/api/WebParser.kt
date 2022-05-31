@@ -30,6 +30,11 @@ object WebParser {
         }
     }
 
+    fun getCommentsTextLevel2(element: Element): Elements {
+
+        return element.getElementsByClass("wpd-comment wpd-reply wpd_comment_level-2")
+    }
+
     suspend fun getSearchData(page: Int, text: String): Elements {
         val url = MyApp.searchUrl.format(page, text)
 
@@ -73,16 +78,11 @@ object WebParser {
     }
 
     fun parserSupportingText(element: Element): String {
-        val e: Elements = element.getElementsByClass("entry-content")[0].getElementsByTag("p")
-        var string = ""
-        if (e.size == 1) {
-            string = e[0].text().replace("<br>", "\n")
-        } else {
-            for (y in e) {
-                string += y.text() + "\n"
-            }
-        }
-        return string
+        val e: Elements = element.getElementsByClass("entry-content")[0]
+            .getElementsByTag("p").not("继续阅读")
+
+
+        return e.text()
     }
 
     fun parserSearchView(element: Element): String {
@@ -98,13 +98,28 @@ object WebParser {
     }
 
     fun parserHtmlText(element: Element): String {
-        val htmlHeader: String = element.getElementsByTag("header")[0].html()
+
         val htmlBodyPre: Element = element.getElementsByClass("entry-content")[0]
         val htmlBodyPre1 = htmlBodyPre.getElementsByTag("div")
         htmlBodyPre1[htmlBodyPre1.size - 1].remove()
         htmlBodyPre1[htmlBodyPre1.size - 2].remove()
 
-        return "$htmlHeader \n<div>\n $htmlBodyPre1"
+
+        return htmlBodyPre1.html()
+    }
+
+    fun parserHtmlTitle(element: Element): String {
+
+        val htmlHeaderEle: Element = element.getElementsByTag("header")[0]
+        // Log.d("TITLE", "TITLE: ${htmlHeaderEle.getElementsByTag("h1")[0].text()}")
+        return htmlHeaderEle.getElementsByTag("h1")[0].text()
+    }
+
+    fun parserHtmlTime(element: Element): String {
+        val htmlHeaderTime: Element = element.getElementsByTag("header")[0]
+            .getElementsByTag("div")[0]
+
+        return htmlHeaderTime.text()
     }
 
     fun parserComment(element: Element): String {

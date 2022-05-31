@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:strokeWidth="0dp"
     android:layout_margin="8dp"
     app:cardElevation="4dp"
+    app:strokeWidth="0dp"
     tools:viewBindingIgnore="true">
 
     <LinearLayout
@@ -53,15 +53,22 @@
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-          <androidx.recyclerview.widget.RecyclerView
-              android:layout_marginTop="8dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/list_item_tage_chips"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/list_item_tage_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true" />
+
+            </HorizontalScrollView>
+
 
         </LinearLayout>
-
 
 
     </LinearLayout>

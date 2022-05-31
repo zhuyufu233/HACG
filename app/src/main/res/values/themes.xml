@@ -34,6 +34,8 @@
 
         <item name="aboutPageHeaderTextColor">?colorOnSurface</item>
         <item name="aboutPageHeaderContentScrim">?colorSurface</item>
+
+        <item name="chipTagsStyle">@style/Widget.ShihCheeng.Hacg.Tags</item>
     </style>
 
 
