@@ -21,9 +21,11 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.shicheeng.hacg.adapter.CommentAdapter
+import com.shicheeng.hacg.common.magnet
 import com.shicheeng.hacg.data.CodeError
 import com.shicheeng.hacg.databinding.ActivityPreviewBinding
 import com.shicheeng.hacg.fm.CommentDialogFragment
+import com.shicheeng.hacg.fm.MagnetListDialogFragment
 import com.shicheeng.hacg.util.CommentSerializable
 import com.shicheeng.hacg.vm.CommentDialogViewModel
 import com.shicheeng.hacg.vm.PreViewModel
@@ -111,6 +113,16 @@ class PreviewActivity : AppCompatActivity() {
                 }
 
             }).into(text)
+
+            binding.previewFab.setOnClickListener { _ ->
+                val list = it.magnet().toList()
+                val arrayList = ArrayList<String>()
+                list.forEach { s ->
+                    arrayList.add(s)
+                }
+                val magnetListDialogFragment = MagnetListDialogFragment.newInstance(arrayList)
+                magnetListDialogFragment.show(supportFragmentManager, MagnetListDialogFragment.TAG)
+            }
         }
 
         viewModel.htmlTime.observe(this) {
@@ -127,6 +139,8 @@ class PreviewActivity : AppCompatActivity() {
                 }
             }
         }
+
+
 
         viewModelOnComment.loadComment.observe(this) {
             val theAdapter = CommentAdapter(it)

@@ -45,4 +45,15 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/preview_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="24dp"
+        android:contentDescription="@string/magnet_search_content"
+        android:text="@string/magnet_search"
+        app:icon="@drawable/ic_magnet_action"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

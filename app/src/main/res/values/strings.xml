@@ -8,4 +8,9 @@
     <string name="slogan">琉璃神社第三方应用</string>
     <string name="retry">重试</string>
     <string name="reply">回复</string>
+    <string name="magnet_search">磁力找寻</string>
+    <string name="magnet_search_content">找出磁力连接，可能无效</string>
+    <string name="magnet_search_result">共找到 %s 个链接</string>
+    <string name="magnet_head">magnet:?xt=urn:btih:%s</string>
+    <string name="magnet_copy">已复制</string>
 </resources>
